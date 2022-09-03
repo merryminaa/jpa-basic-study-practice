@@ -2,6 +2,8 @@ package jpabook.jpashop.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "ORDERS") //예약어와 중복 방지
@@ -12,16 +14,23 @@ public class Order {
     @Column(name = "ORDER_ID")
     private Long id;
 
-    @Column(name = "MEMBER_ID")
-    private Long memberId;
-    //이런식으로 외래키를 객체에 그대로 가져오는 것은 데이터 중심 설계(not 객체 중심 설계)
-
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    //연관관계 편의 메소드
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem); //역방향 값 입력
+        orderItem.setOrder(this); //주인 값 입력
+    }
 
     public Long getId() {
         return id;
@@ -31,14 +40,6 @@ public class Order {
         this.id = id;
     }
 
-    public Long getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
-    }
-
     public Member getMember() {
         return member;
     }
@@ -46,7 +47,6 @@ public class Order {
     public void setMember(Member member) {
         this.member = member;
     }
-
 
     public LocalDateTime getOrderDate() {
         return orderDate;

@@ -1,6 +1,8 @@
 package jpabook.jpashop.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Member {
@@ -16,6 +18,10 @@ public class Member {
     private String street;
 
     private String zipcode;
+
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
+    //관례상 초기값 빈 어레이로 세팅(nullpointexception 방지 목적 등)
 
     public Long getId() {
         return id;
@@ -55,5 +61,13 @@ public class Member {
 
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

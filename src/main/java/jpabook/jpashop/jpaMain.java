@@ -1,7 +1,9 @@
 package jpabook.jpashop;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.domain.OrderItem;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,14 +18,17 @@ public class jpaMain {
 
         try {
 
-            //비객체지향적
-//            Order order = em.find(Order.class, 1L);
-//            Long memberId = order.getMemberId();
-//            Member member = em.find(Member.class, memberId);
+            //주문
+            Order order = new Order();
+            order.addOrderItem(new OrderItem()); //연관관계 편의 메소드
 
-            //객체지향적
-            Order order = em.find(Order.class, 1L);
-            Member member = order.getMember();
+            //단방향이었을 경우
+//            Order order = new Order();
+//            em.persist(order);
+//            OrderItem orderItem = new OrderItem();
+//            orderItem.setOrder(order);
+//
+//            em.persist(orderItem);
 
             tx.commit();
         } catch (Exception e) {
