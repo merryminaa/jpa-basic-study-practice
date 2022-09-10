@@ -1,6 +1,7 @@
 package jpabook.jpashop;
 
 import com.sun.org.apache.xpath.internal.operations.Or;
+import jpabook.jpashop.domain.Book;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderItem;
@@ -15,12 +16,18 @@ public class jpaMain {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpabook");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
+        tx.begin();
 
         try {
 
+            Book book = new Book();
+            book.setName("JPA book");
+            book.setAuthor("김영한");
+            em.persist(book);
+
             //주문
-            Order order = new Order();
-            order.addOrderItem(new OrderItem()); //연관관계 편의 메소드
+//            Order order = new Order();
+//            order.addOrderItem(new OrderItem()); //연관관계 편의 메소드
 
             //단방향이었을 경우
 //            Order order = new Order();
