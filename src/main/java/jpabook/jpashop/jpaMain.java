@@ -1,10 +1,7 @@
 package jpabook.jpashop;
 
 import com.sun.org.apache.xpath.internal.operations.Or;
-import jpabook.jpashop.domain.Book;
-import jpabook.jpashop.domain.Member;
-import jpabook.jpashop.domain.Order;
-import jpabook.jpashop.domain.OrderItem;
+import jpabook.jpashop.domain.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,22 +17,16 @@ public class jpaMain {
 
         try {
 
-            Book book = new Book();
-            book.setName("JPA book");
-            book.setAuthor("김영한");
-            em.persist(book);
+//            Book book = new Book();
+//            book.setName("JPA book");
+//            book.setAuthor("김영한");
+//            em.persist(book);
 
             //주문
-//            Order order = new Order();
-//            order.addOrderItem(new OrderItem()); //연관관계 편의 메소드
-
-            //단방향이었을 경우
-//            Order order = new Order();
-//            em.persist(order);
-//            OrderItem orderItem = new OrderItem();
-//            orderItem.setOrder(order);
-//
-//            em.persist(orderItem);
+            Order order = new Order();
+            order.addOrderItem(new OrderItem()); //연관관계 편의 메소드
+            order.addDelivery(new Delivery());
+            em.persist(order); //영속성 전이로 인해 order만 영속화해도 orderItem, delivery 모두 영속화
 
             tx.commit();
         } catch (Exception e) {
